@@ -1,0 +1,18 @@
+version: '3'
+services:
+  movie-ai-db:
+    image: postgres:16.1-alpine
+    environment:
+      POSTGRES_USER: movie
+      POSTGRES_PASSWORD: movie
+      POSTGRES_DB: movie-database
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.db:/var/lib/postgresql/data
+
+  axon-server:
+    image: axoniq/axonserver
+    ports:
+      - "8024:8024"
+      - "8124:8124"
