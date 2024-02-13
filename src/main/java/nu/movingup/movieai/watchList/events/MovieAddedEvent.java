@@ -4,7 +4,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import java.util.UUID;
 
-public record MovieCreatedEvent(
+public record MovieAddedEvent(
         @TargetAggregateIdentifier
         UUID watchListId,
         String movieId

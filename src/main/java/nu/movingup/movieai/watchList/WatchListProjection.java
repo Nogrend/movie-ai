@@ -7,6 +7,7 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static java.util.Collections.*;
@@ -27,7 +28,7 @@ public class WatchListProjection {
     }
 
     @QueryHandler
-    public Optional<WatchList> on(GetMovieListByIdQuery query) {
-        return watchListRepository.findById(query.id());
+    public List<WatchList> on(GetMovieListByIdQuery query) {
+        return watchListRepository.findByWatchListId(query.id());
     }
 }

@@ -1,6 +1,8 @@
 package nu.movingup.movieai.watchList;
 
+import nu.movingup.movieai.watchList.commands.AddMovieToWatchListCommand;
 import nu.movingup.movieai.watchList.commands.CreateWatchListCommand;
+import nu.movingup.movieai.watchList.events.MovieAddedEvent;
 import nu.movingup.movieai.watchList.events.WatchListCreatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -27,16 +29,21 @@ public class WatchListAggregate {
     }
 
     @EventSourcingHandler
-    private void on(WatchListCreatedEvent event){
+    public void on(WatchListCreatedEvent event){
         this.id = event.watchListId();
         this.movieIds = new ArrayList<>();
     }
 
-//    @CommandHandler
-//    public void on(AddMovieToWatchListCommand command) {
-//        apply(new MovieAddedToWatchListEvent(this.id, command.getMovieId()));
-//    }
+    @CommandHandler
+    public void on(AddMovieToWatchListCommand command){
+        apply(new MovieAddedEvent(command.watchListId(), command.movieId()));
+    }
 
+
+    @EventSourcingHandler
+    private void on(MovieAddedEvent event) {
+        movieIds.add(event.movieId());
+    }
 
 
 }
