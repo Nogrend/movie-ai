@@ -1,12 +1,11 @@
 package nu.movingup.movieai.watchList;
 
 import nu.movingup.movieai.watchList.events.WatchListCreatedEvent;
-import nu.movingup.movieai.watchList.queries.GetMovieListByIdQuery;
+import nu.movingup.movieai.watchList.queries.GetWatchListById;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Optional;
 
 import static java.util.Collections.*;
@@ -27,7 +26,7 @@ public class WatchListProjection {
     }
 
     @QueryHandler
-    public Optional<WatchList> on(GetMovieListByIdQuery query) {
+    public Optional<WatchList> on(GetWatchListById query) {
         return watchListRepository.findById(query.id());
     }
 }
