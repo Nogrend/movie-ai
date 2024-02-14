@@ -53,7 +53,7 @@ public class WatchListAggregateTest {
                 .when(new DeleteMovieFromWatchListCommand(watchListId, movieId))
                 .expectEvents(new MovieDeletedFromWatchListEvent(watchListId, movieId))
                 .expectState(state -> {
-                    assertThat(state.getMovieIds().size()).isEqualTo(0);
+                    assertThat(state.getMovieIds()).isEmpty();
                 });
     }
 }
