@@ -1,6 +1,8 @@
 package nu.movingup.movieai.watchList;
 
+import nu.movingup.movieai.watchList.commands.AddMovieToWatchListCommand;
 import nu.movingup.movieai.watchList.commands.CreateWatchListCommand;
+import nu.movingup.movieai.watchList.commands.DeleteMovieFromWatchListCommand;
 import nu.movingup.movieai.watchList.queries.GetWatchListById;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -34,4 +36,15 @@ public class WatchListController {
                 ResponseTypes.optionalInstanceOf(WatchList.class)
         );
     }
+
+    @PostMapping("/watchlist/add-movie")
+    public void addMovieToWatchList(@RequestBody AddMovieToWatchListCommand command) {
+        commandGateway.send(command);
+    }
+
+    @DeleteMapping("/watchlist/{watchListId}/delete-movie/{movieId}")
+    public void deleteMovieFromWatchList(@PathVariable UUID watchListId, @PathVariable String movieId) {
+        commandGateway.send(new DeleteMovieFromWatchListCommand(watchListId, movieId));
+    }
 }
+
