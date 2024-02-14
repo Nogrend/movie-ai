@@ -26,6 +26,14 @@ public class WatchListAggregate {
     protected WatchListAggregate() {
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public List<String> getMovieIds() {
+        return movieIds;
+    }
+
     @CommandHandler
     public WatchListAggregate(CreateWatchListCommand command) {
         apply(new WatchListCreatedEvent(command.watchListId()));
