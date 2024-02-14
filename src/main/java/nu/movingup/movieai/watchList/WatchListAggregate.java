@@ -2,7 +2,9 @@ package nu.movingup.movieai.watchList;
 
 import nu.movingup.movieai.watchList.commands.AddMovieToWatchListCommand;
 import nu.movingup.movieai.watchList.commands.CreateWatchListCommand;
+import nu.movingup.movieai.watchList.commands.DeleteMovieFromWatchListCommand;
 import nu.movingup.movieai.watchList.events.MovieAddedToWatchListEvent;
+import nu.movingup.movieai.watchList.events.MovieDeletedFromWatchListEvent;
 import nu.movingup.movieai.watchList.events.WatchListCreatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -49,5 +51,21 @@ public class WatchListAggregate {
 
     private boolean movieIsNotInWatchList(String movieId) {
         return !this.movieIds.contains(movieId);
+    }
+
+    @CommandHandler
+    public void on(DeleteMovieFromWatchListCommand command){
+        if (movieIsInWatchList(command.movieId())){
+            apply(new MovieDeletedFromWatchListEvent(command.watchListId(), command.movieId()));
+        }
+    }
+
+    @EventSourcingHandler
+    public void on(MovieDeletedFromWatchListEvent event) {
+        this.movieIds.remove(event.movieId());
+    }
+
+    private boolean movieIsInWatchList(String movieId) {
+        return this.movieIds.contains(movieId);
     }
 }

@@ -46,4 +46,8 @@ public class WatchList {
     public void addMovieToWatchList(String movieId) {
         this.movieIds.add(movieId);
     }
+
+    public void deleteMovieFromWatchList(String movieId) {
+        this.movieIds.remove(movieId);
+    }
 }

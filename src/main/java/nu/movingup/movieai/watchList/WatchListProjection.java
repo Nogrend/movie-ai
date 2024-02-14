@@ -1,6 +1,7 @@
 package nu.movingup.movieai.watchList;
 
 import nu.movingup.movieai.watchList.events.MovieAddedToWatchListEvent;
+import nu.movingup.movieai.watchList.events.MovieDeletedFromWatchListEvent;
 import nu.movingup.movieai.watchList.events.WatchListCreatedEvent;
 import nu.movingup.movieai.watchList.queries.GetWatchListById;
 import org.axonframework.eventhandling.EventHandler;
@@ -30,6 +31,13 @@ public class WatchListProjection {
     public void on(MovieAddedToWatchListEvent event) {
         var watchList = watchListRepository.findById(event.watchListId()).orElseThrow();
         watchList.addMovieToWatchList(event.movieId());
+        watchListRepository.save(watchList);
+    }
+
+    @EventHandler
+    public void on(MovieDeletedFromWatchListEvent event) {
+        var watchList = watchListRepository.findById(event.watchListId()).orElseThrow();
+        watchList.deleteMovieFromWatchList(event.movieId());
         watchListRepository.save(watchList);
     }
 
