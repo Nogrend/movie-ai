@@ -2,7 +2,7 @@ package nu.movingup.movieai.watchList;
 
 import nu.movingup.movieai.watchList.commands.AddMovieToWatchListCommand;
 import nu.movingup.movieai.watchList.commands.CreateWatchListCommand;
-import nu.movingup.movieai.watchList.events.MovieAddedEvent;
+import nu.movingup.movieai.watchList.events.MovieAddedToWatchListEvent;
 import nu.movingup.movieai.watchList.events.WatchListCreatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -21,7 +21,8 @@ public class WatchListAggregate {
     private UUID id;
     private List<String> movieIds;
 
-    protected WatchListAggregate(){};
+    protected WatchListAggregate() {
+    }
 
     @CommandHandler
     public WatchListAggregate(CreateWatchListCommand command) {
@@ -29,21 +30,24 @@ public class WatchListAggregate {
     }
 
     @EventSourcingHandler
-    public void on(WatchListCreatedEvent event){
+    public void on(WatchListCreatedEvent event) {
         this.id = event.watchListId();
         this.movieIds = new ArrayList<>();
     }
 
     @CommandHandler
-    public void on(AddMovieToWatchListCommand command){
-        apply(new MovieAddedEvent(command.watchListId(), command.movieId()));
+    public void on(AddMovieToWatchListCommand command) {
+        if (movieIsNotInWatchList(command.movieId())) {
+            apply(new MovieAddedToWatchListEvent(command.watchListId(), command.movieId()));
+        }
     }
-
 
     @EventSourcingHandler
-    private void on(MovieAddedEvent event) {
-        movieIds.add(event.movieId());
+    public void on(MovieAddedToWatchListEvent event) {
+        this.movieIds.add(event.movieId());
     }
 
-
+    private boolean movieIsNotInWatchList(String movieId) {
+        return !this.movieIds.contains(movieId);
+    }
 }

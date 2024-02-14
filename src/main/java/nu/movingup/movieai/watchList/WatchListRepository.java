@@ -10,6 +10,4 @@ import java.util.UUID;
 
 @Repository
 public interface WatchListRepository extends JpaRepository<WatchList, UUID> {
-    @Query("SELECT w FROM WatchList w WHERE w.id = :watchListId")
-    List<WatchList> findByWatchListId(@Param("watchListId") UUID watchListId);
 }
