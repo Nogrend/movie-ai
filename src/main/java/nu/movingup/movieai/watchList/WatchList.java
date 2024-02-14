@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.Collections.emptyList;
-
 @Entity
 public class WatchList {
     @Id
@@ -19,7 +17,6 @@ public class WatchList {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> movieIds;
 
-    // todo it want a no-argument constructor, is below a good solution?
     public WatchList() {
         this.id = null;
         this.movieIds = new ArrayList<>();
@@ -44,5 +41,9 @@ public class WatchList {
 
     public void setMovieIds(List<String> movieIds) {
         this.movieIds = movieIds;
+    }
+
+    public void addMovieToWatchList(String movieId) {
+        this.movieIds.add(movieId);
     }
 }
