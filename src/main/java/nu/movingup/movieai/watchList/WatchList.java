@@ -1,15 +1,13 @@
 package nu.movingup.movieai.watchList;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ElementCollection;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static java.util.Collections.emptyList;
 
 @Entity
 public class WatchList {
@@ -19,7 +17,6 @@ public class WatchList {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> movieIds;
 
-    // todo it want a no-argument constructor, is below a good solution?
     public WatchList() {
         this.id = null;
         this.movieIds = new ArrayList<>();

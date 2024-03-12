@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
 
 @Service
 public class WatchListProjection {
